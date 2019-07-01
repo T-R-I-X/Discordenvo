@@ -1,6 +1,6 @@
 const DB = require("./functions")
 
-console.log(`════════════════Database Loaded═══════════════════════════════════════\n════════════════Support: https://discord.gg/Hc9rC8X═══════════════════`)
+console.log(`(Discordenvo loaded) Database started`)
 
 module.exports = {
 
@@ -63,20 +63,20 @@ module.exports = {
     });
   },
 
-  subtractFromBalance: async function(ID, toSubstract) {
-    if (!ID) throw new Error('SubstractFromBalance function is missing parameters!')
-    if (!toSubstract && toSubstract != 0) throw new Error('SubstractFromBalance function is missing parameters!')
-    if (!parseInt(toSubstract)) throw new Error('SubstractFromBalance function parameter toSubstract needs to be a number!')
+  subtractFromBalance: async function(ID, toSubtract) {
+    if (!ID) throw new Error('SubtractFromBalance function is missing parameters!')
+    if (!toSubtract && toSubtract != 0) throw new Error('SubtractFromBalance function is missing parameters!')
+    if (!parseInt(toSubtract)) throw new Error('SubtractFromBalance function parameter toSubtract needs to be a number!')
 
     return new Promise(async (resolve, error) => {
 
       const Info = await DB.fetch(ID)
-      const Output = await DB.update(ID, 'balance', Info.balance - parseInt(toSubstract))
+      const Output = await DB.update(ID, 'balance', Info.balance - parseInt(toSubtract))
 
       return resolve({
         userid: ID,
         oldbalance: Info.balance,
-        newbalance: Info.balance - parseInt(toSubstract),
+        newbalance: Info.balance - parseInt(toSubtract),
       })
     });
   },
@@ -295,30 +295,48 @@ module.exports = {
     });
   },
 
-  Steal: async function(stealer, victim, data = {
-    failurerate: 50,
-    min: 0,
-    max: 100
-  }) {
-    if (!FromUser || !ToUser || !Amount) throw new Error('Steal function is missing parameters!')
-    if (!parseInt(Amount)) throw new Error('Steal function parameter Amount needs to be a number!')
-    Amount = parseInt(Amount)
-
-    var success = true;
+    slots: async function(ID, input) {
+    if (!ID || !input) throw new Error('Slots function is missing parameters!')
+    if (!parseInt(input)) throw new Error('Slots function parameter Input needs to be a number!')
 
     return new Promise(async (resolve, error) => {
 
-      var randomnumber = Math.random()
-      if (randomnumber <= failureRate / 100) success = false;
+      const random = ['🍉🍇🍒', '🍈🍒🍡', '🍎🍒🍇'][Math.floor(Math.random() * 3)]
 
-      const Info1 = await DB.fetch(stealer)
-      if (Info1.balance < amount) return error('The user that you try to steal off has insufficient funds.')
-      const Info2 = await DB.fetch(victim)
+      const Info = await DB.fetch(ID)
+      if (Info.balance < input) throw new Error('The user has insufficient funds.')
 
-      const Output1 = await DB.update(stealer, 'balance', Info1.balance + parseInt(amount))
-      const Output2 = await DB.update(victim, 'balance', Info2.balance - parseInt(amount))
+      if (random == '🍈🍒🍡') {
+        const Output = await DB.update(ID, 'balance', Info.balance - parseInt(input))
+        return resolve({
+          userid: ID,
+          oldbalance: Info.balance,
+          newbalance: Output.balance,
+          slot: '🍈🍒🍡',
+          result: 'lost'
+        })
+      } else {
+        if(random == '🍉🍇🍒') {
+          const Output = await DB.update(ID, 'balance', Info.balance - parseInt(input))
+          return resolve({
+            userid: ID,
+            oldbalance: Info.balance,
+            newbalance: Output.balance,
+            slot: '🍉🍇🍒',
+            result: 'lost'
+          })
+        } else {
+        const Output = await DB.update(ID, 'balance', Info.balance + parseInt(input))
+        return resolve({
+          userid: ID,
+          oldbalance: Info.balance,
+          newbalance: Output.balance,
+          slot: "🍊🍇🍒",
+          result: 'won'
+        })
+        }
+      }
 
     });
   }
-
 }

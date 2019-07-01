@@ -1,0 +1,26 @@
+{
+  "name": "discordenvo",
+  "version": "1.0.1",
+  "description": "This is package created by my dear friend spikey <3 and he has given it to me to take over.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \\\"Error: no test\\\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CDTtrix/Discord-economy.git"
+  },
+  "keywords": [
+    "discord",
+    "economy",
+    "discord-eco",
+    "discord-economy",
+    "discordpackage"
+  ],
+  "author": "Trix",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CDTtrix/Discord-economy/issues"
+  },
+  "homepage": "https://github.com/CDTtrix/Discord-economy#readme"
+}
