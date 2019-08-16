@@ -1,10 +1,15 @@
 {
   "name": "discordenvo",
-  "version": "1.0.1",
-  "description": "This is package created by my dear friend spikey <3 and he has given it to me to take over.",
+  "version": "1.1.1",
+  "description": "A discord.js package for economic commands.",
   "main": "index.js",
   "scripts": {
     "test": "echo \\\"Error: no test\\\""
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "sequelize": "^4.44.0",
+    "sqlite3": "^4.0.9"
   },
   "repository": {
     "type": "git",

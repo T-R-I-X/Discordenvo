@@ -29,8 +29,18 @@ $ npm install --save discordevo
 -   [eris](https://www.npmjs.com/package/eris) - (`npm install --save eris`)
 
 ## ChangeLog
-- [1.0.0](https://www.npmjs.com/package/discordenvo/v/1.0.0) Package was made -- made daily cooldown from when it was used until 12am -- added slots function -- fixed misspell "SubstractFromBalance" to SubtractFromBalance
+- [1.0.0](https://www.npmjs.com/package/discordenvo/v/1.0.0) Package was made -- made daily cooldown from when it was used until 12am -- added slots function -- fixed mispell "SubstractFromBalance" to SubtractFromBalance
 - [1.0.1](https://www.npmjs.com/package/discordenvo/v/1.0.1) Added Readme.md
+- [1.0.2](https://www.npmjs.com/package/discordenvo/v/1.0.2) Fixed some bugs hopefully 
+- [1.0.3](https://www.npmjs.com/package/discordenvo/v/1.0.3) Added slots function again 
+- [1.0.4](https://www.npmjs.com/package/discordenvo/v/1.0.4) Mispells fixed
+- [1.0.5](https://www.npmjs.com/package/discordenvo/v/1.0.5) Exm bot updated and bugs fixed
+- [1.0.6](https://www.npmjs.com/package/discordenvo/v/1.0.6) Made slots look better and have more out comes -- fixed readme
+- [1.0.7](https://www.npmjs.com/package/discordenvo/v/1.0.7) Fixed bug
+- [1.0.8](https://www.npmjs.com/package/discordenvo/v/1.0.8) Fixed random error -- added slots function into readme
+- [1.0.9](https://www.npmjs.com/package/discordenvo/v/1.0.9) Changed SubstractFromBalance to SubtractFromBalance
+- [1.1.0](https://www.npmjs.com/package/discordenvo/v/1.1.0) Added to slots function, it looks better, and more outputs, output1 = what you rolled, output2 = what you almost rolled, output3 = what you almost rolled -- Added to slots function, Imput is what you want the user to earn this saves you from writing more code :) -- check readme for more information
+- [1.1.0](https://www.npmjs.com/package/discordenvo/v/1.1.1) Added to slots function check readme for information -- fixed Subtract function -- other misc stuff
 
 **SetBalance**
 
@@ -71,11 +81,11 @@ Expected Promise Output
 ```js
 /**
  * @param {string} [UserID] - Somebody's discord user ID.
- * @param {integer} [toSubstract] - How much money you want to substract.
+ * @param {integer} [toSubtract] - How much money you want to substract.
  */
  
 var eco = require('discord-economy')
-eco.SubstractFromBalance(UserID, toSubstract)
+eco.SubstractFromBalance(UserID, toSubtract)
  
 /**
 Expected Promise Output
@@ -129,14 +139,15 @@ Expected Promise Output with data.search
 ```js
 /**
  * @param {string} [UserID] - Somebody's discord user ID.
+ * @param {string} [Imput] - Cash you want added when daily is ran.
  */
  
 var eco = require('discord-economy')
-eco.Daily(UserID)
+eco.Daily(UserID, Imput)
  
 /**
 Expected Promise Output
-{userid, updated, timetowait}
+{userid, updated, earned, timetowait}
  */
 ```
 
@@ -253,15 +264,19 @@ Expected Promise Output
 ```js
 /**
  * @param {string} [UserID] - Somebody's discord user ID.
- * @param {interger} [imput] - How much they are betting
+ * @param {interger} [imput] - How much they are betting.
+ * @param {Object} data - The data you want to attach to the function.
+ All keys in this object are optional. They have a default fallback.
+ * @param {integer} data.Rolls - How many times you wanna roll the slot.
+ * @param {array} data.Emojis - The emojis you want to have.
  */
  
 var eco = require('discord-economy')
-eco.Slots(UserID, imput)
+eco.Slots(UserID, imput, {Rolls: 3, Emojis: ['🍎','🍒','🍉']})
  
 /**
 Expected Promise Output
-{oldbalance,newbalance,slot,result}
+{oldbalance,newbalance,slots1,slots2,slots3,output}
  */
 ```
 
@@ -311,13 +326,12 @@ client.on('message', async message => {
  
   if (command === 'daily') {
  
-    var output = await eco.Daily(message.author.id)
+    var output = await eco.Daily(message.author.id, 100)
     //output.updated will tell you if the user already claimed his/her daily yes or no.
  
     if (output.updated) {
  
-      var profile = await eco.AddToBalance(message.author.id, 100)
-      message.reply(`You claimed your daily coins succesfully! You now own ${profile.newbalance} coins.`);
+      message.reply(`You earned your daily of ${output.earned}.`);
  
     } else {
       message.channel.send(`Sorry, you already claimed your daily coins!\nBut no worries, over ${output.timetowait} you can daily again!`)
@@ -454,20 +468,34 @@ You worked as a \` ${output.job} \` and earned :money_with_wings: ${output.earne
 You now own :money_with_wings: ${output.balance}`)
  
   },
-    if (command === 'slots') {
+  if (command === 'slots') {
     var user = message.author.id
-    var imput = parseInt(args[0])
-    var balance = eco.FetchBalance(user)
-
+    var imput = args[0]
+    var balance = eco.FetchBalance(user).balance
+ 
     if(imput > balance) {
-
+        message.reply('nono')
     } else {
-    var output = await eco.Slots(user, imput)
+    var output = await eco.Slots(user, imput, {Rolls: 3, Emojis: ['🍎','🍒','🍉']})
+ 
+    if(output.output == 'lost') {
+    message.channel.send(`
+    __You Lost!__
 
-    if(output.result == 'lost') {
-    message.reply(`You lost with ${output.slot}! Your new balance is ${output.newbalance}`)
+    -----------------
+   ${output.slots1}  ${output.slots2} ${output.slots3} <
+    -----------------
+    
+    `)
     } else {
-    message.reply(`You won with ${output.slot}! Your new balance is ${output.newbalance}`)
+    message.channel.send(`
+    __You Won!__
+
+    -----------------
+   ${output.slots1} ${output.slots2} ${output.slots3} <
+    -----------------
+    
+    `)
     }
     }
   }
