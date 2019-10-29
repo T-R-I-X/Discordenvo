@@ -8,7 +8,7 @@
   },
   "bundleDependencies": false,
   "dependencies": {
-    "sequelize": "^4.44.0",
+    "sequelize": "^5.15.1",
     "sqlite3": "^4.0.9"
   },
   "repository": {
