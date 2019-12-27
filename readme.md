@@ -2,7 +2,7 @@
   <br />
   <br />
   <p>
-    <a href="https://discord.gg/Ym5BnJU"><img src="https://discordapp.com/widget?id=612023254055649280&theme=dark" alt="Discord server" /></a>
+    <a href="https://discord.gg/Ym5BnJU"><img src="https://img.shields.io/badge/online-5-GREEN" alt="Discord server"/></a>
     <a href="https://www.npmjs.com/package/discordenvo"><img src="https://img.shields.io/npm/v/discordenvo.svg" alt="NPM version" /></a>
     <a href="https://www.npmjs.com/package/discordenvo"><img src="https://img.shields.io/npm/dt/discordenvo.svg" alt="NPM downloads" /></a>
   </p>
