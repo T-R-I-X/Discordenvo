@@ -8,18 +8,18 @@ module.exports = {
       var db;
 
       function createDb() {
-        db = new sqlite3.Database("database.sqlite", createTable);
+        db = new sqlite3.Database("economy.sqlite", createTable);
       }
 
       function createTable() {
         db.run(
-          "CREATE TABLE IF NOT EXISTS Economies (userID TEXT, balance INTEGER, cooldowns TEXT, inventory TEXT)",
+          "CREATE TABLE IF NOT EXISTS Economies (userId TEXT, balance INTEGER, cooldowns TEXT, inventory TEXT)",
           checkIfCreated
         );
       }
 
       function checkIfCreated() {
-        db.get(`SELECT * FROM Economies WHERE userID = '${ID}'`, function(
+        db.get(`SELECT * FROM Economies WHERE userId = '${ID}'`, function(
           err,
           row
         ) {
@@ -30,14 +30,14 @@ module.exports = {
 
       function insertRows() {
         var insert = db.prepare(
-          "INSERT INTO Economies (userID, balance, cooldowns, inventory) VALUES (?,?,?,?)"
+          "INSERT INTO Economies (userId, balance, cooldowns, inventory) VALUES (?,?,?,?)"
         );
         insert.run(ID, 0, 0, "", "");
         insert.finalize(readAllRows);
       }
 
       function readAllRows() {
-        db.get(`SELECT * FROM Economies WHERE userID = '${ID}'`, function(
+        db.get(`SELECT * FROM Economies WHERE userId = '${ID}'`, function(
           err,
           row
         ) {
@@ -66,27 +66,27 @@ module.exports = {
       var db;
 
       function createDb() {
-        db = new sqlite3.Database("database.sqlite", createTable);
+        db = new sqlite3.Database("economy.sqlite", createTable);
       }
 
       function createTable() {
         db.run(
-          "CREATE TABLE IF NOT EXISTS Economies (userID TEXT, balance INTEGER, cooldowns TEXT, inventory TEXT)",
+          "CREATE TABLE IF NOT EXISTS Economies (userId TEXT, balance INTEGER, cooldowns TEXT, inventory TEXT)",
           checkIfCreated
         );
       }
 
       function checkIfCreated() {
-        db.get(`SELECT * FROM Economies WHERE userID = '${ID}'`, function(
+        db.get(`SELECT * FROM Economies WHERE userId = '${ID}'`, function(
           err,
           row
         ) {
           if (!row) return insertRows();
 
           db.run(
-            `UPDATE Economies SET ${column} = '${input}' WHERE userID = '${ID}'`
+            `UPDATE Economies SET ${column} = '${input}' WHERE userId = '${ID}'`
           );
-          db.get(`SELECT * FROM Economies WHERE userID = '${ID}'`, function(
+          db.get(`SELECT * FROM Economies WHERE userId = '${ID}'`, function(
             err,
             row
           ) {
@@ -97,14 +97,14 @@ module.exports = {
 
       function insertRows() {
         var insert = db.prepare(
-          "INSERT INTO Economies (userID, balance, cooldowns, inventory) VALUES (?,?,?,?)"
+          "INSERT INTO Economies (userId, balance, cooldowns, inventory) VALUES (?,?,?,?)"
         );
         insert.run(ID, 0, 0, "", "");
         insert.finalize(readAllRows);
       }
 
       function readAllRows() {
-        db.get(`SELECT * FROM Economies WHERE userID = '${ID}'`, function(
+        db.get(`SELECT * FROM Economies WHERE userId = '${ID}'`, function(
           err,
           row
         ) {
@@ -133,24 +133,24 @@ module.exports = {
       var db;
 
       function createDb() {
-        db = new sqlite3.Database("database.sqlite", createTable);
+        db = new sqlite3.Database("economy.sqlite", createTable);
       }
 
       function createTable() {
         db.run(
-          "CREATE TABLE IF NOT EXISTS Economies (userID TEXT, balance INTEGER, cooldowns TEXT, inventory TEXT)",
+          "CREATE TABLE IF NOT EXISTS Economies (userId TEXT, balance INTEGER, cooldowns TEXT, inventory TEXT)",
           checkIfCreated
         );
       }
 
       function checkIfCreated() {
-        db.get(`SELECT * FROM Economies WHERE userID = '${ID}'`, function(
+        db.get(`SELECT * FROM Economies WHERE userId = '${ID}'`, function(
           err,
           row
         ) {
           if (!row) return resolve("Done");
 
-          db.run(`DELETE FROM Economies WHERE userID = '${ID}'`, function(
+          db.run(`DELETE FROM Economies WHERE userId = '${ID}'`, function(
             err,
             row
           ) {
@@ -176,12 +176,12 @@ module.exports = {
       var db;
 
       function createDb() {
-        db = new sqlite3.Database("database.sqlite", createTable);
+        db = new sqlite3.Database("economy.sqlite", createTable);
       }
 
       function createTable() {
         db.run(
-          "CREATE TABLE IF NOT EXISTS Economies (userID TEXT, balance INTEGER, cooldowns TEXT, inventory TEXT)",
+          "CREATE TABLE IF NOT EXISTS Economies (userId TEXT, balance INTEGER, cooldowns TEXT, inventory TEXT)",
           readAllRows
         );
       }
@@ -189,7 +189,7 @@ module.exports = {
       function readAllRows() {
         if (filter.search) {
           db.all(
-            `SELECT count(*) + 1 AS rank FROM (SELECT * FROM Economies WHERE balance != 0 ORDER BY balance DESC) WHERE userID == ${filter.search}`,
+            `SELECT count(*) + 1 AS rank FROM (SELECT * FROM Economies WHERE balance != 0 ORDER BY balance DESC) WHERE userId == ${filter.search}`,
             function(err, rows) {
               return resolve(rows[0]);
               closeDb();
@@ -199,148 +199,14 @@ module.exports = {
           db.all(
             `SELECT * FROM Economies WHERE balance != 0 ORDER BY balance DESC LIMIT ${filter.limit}`,
             function(err, rows) {
-              return resolve(rows);
               closeDb();
+              return resolve(rows);
             }
           );
         }
       }
 
       function closeDb() {
-        db.close();
-      }
-
-      createDb();
-    });
-  },
-
-  inventoryUpdate: function(ID, item) {
-    return queue.addToQueue({
-      value: this._inventoryUpdate.bind(this),
-      args: [ID, item]
-    });
-  },
-
-  _inventoryUpdate: function(ID, item) {
-    return new Promise((resolve, error) => {
-      var db;
-
-      function createDb() {
-        db = new sqlite3.Database("database.sqlite", createTable);
-      }
-
-      function createTable() {
-        db.run(
-          "CREATE TABLE IF NOT EXISTS Economies (userID TEXT, balance INTEGER, cooldowns TEXT, inventory TEXT)",
-          checkIfCreated
-        );
-      }
-
-      function checkIfCreated() {
-        db.get(`SELECT * FROM Economies WHERE userID = '${ID}'`, function(
-          err,
-          row
-        ) {
-          if (!row) return insertRows();
-
-          db.run(
-            `UPDATE Economies SET ${column} = '${input}' WHERE userID = '${ID}'`
-          );
-          db.get(`SELECT * FROM Economies WHERE userID = '${ID}'`, function(
-            err,
-            row
-          ) {
-            return resolve(row);
-          });
-        });
-      }
-
-      function insertRows() {
-        var insert = db.prepare(
-          "INSERT INTO Economies (userID, balance, cooldowns, inventory) VALUES (?,?,?,?)"
-        );
-        insert.run(ID, 0, 0, "", "");
-        insert.finalize(readAllRows);
-      }
-
-      function readAllRows() {
-        db.get(`SELECT * FROM Economies WHERE userID = '${ID}'`, function(
-          err,
-          row
-        ) {
-          closeDb();
-        });
-      }
-
-      function closeDb() {
-        checkIfCreated();
-        db.close();
-      }
-
-      createDb();
-    });
-  },
-
-  shopUpdate: function(item) {
-    return queue.addToQueue({
-      value: this._shopUpdate.bind(this),
-      args: [item]
-    });
-  },
-
-  _shopUpdate: function(item) {
-    return new Promise((resolve, error) => {
-      var db;
-
-      function createDb() {
-        db = new sqlite3.Database("database.sqlite", createTable);
-      }
-
-      function createTable() {
-        db.run(
-          "CREATE TABLE IF NOT EXISTS Economies (userID TEXT, balance INTEGER, cooldowns TEXT, inventory TEXT)",
-          checkIfCreated
-        );
-      }
-
-      function checkIfCreated() {
-        db.get(`SELECT * FROM Economies WHERE userID = '${ID}'`, function(
-          err,
-          row
-        ) {
-          if (!row) return insertRows();
-
-          db.run(
-            `UPDATE Economies SET ${column} = '${input}' WHERE userID = '${ID}'`
-          );
-          db.get(`SELECT * FROM Economies WHERE userID = '${ID}'`, function(
-            err,
-            row
-          ) {
-            return resolve(row);
-          });
-        });
-      }
-
-      function insertRows() {
-        var insert = db.prepare(
-          "INSERT INTO Economies (userID, balance, cooldowns, inventory) VALUES (?,?,?,?,?)"
-        );
-        insert.run(ID, 0, 0, "", "");
-        insert.finalize(readAllRows);
-      }
-
-      function readAllRows() {
-        db.get(`SELECT * FROM Economies WHERE userID = '${ID}'`, function(
-          err,
-          row
-        ) {
-          closeDb();
-        });
-      }
-
-      function closeDb() {
-        checkIfCreated();
         db.close();
       }
 
