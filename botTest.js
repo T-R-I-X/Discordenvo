@@ -8,7 +8,7 @@ const client = new Discord.Client();
 //Set the prefix and token of the bot.
 const settings = {
   prefix: ';',
-  token: 'NjEzMTQzMzE4OTA1NDg3Mzcw.XxEXxA.b8t2Bm7WYUC2jxTCuRPO1F-SUcA'
+  token: ''
 }
  
 //Whenever someone types a message this gets activated.
