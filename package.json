@@ -1,37 +1,30 @@
 {
   "name": "discordenvo",
-  "version": "1.1.9",
-  "description": "The best economy package on npmjs.",
-  "main": "index.js",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "echo \\\"Error: no test\\\""
+    "start": "docusaurus start",
+    "build": "docusaurus build",
+    "swizzle": "docusaurus swizzle",
+    "deploy": "docusaurus deploy"
   },
-  "bundleDependencies": false,
   "dependencies": {
-    "discord-economy": "^1.2.2",
-    "discord.js": "^12.2.0",
-    "sequelize": "^6.3.3",
-    "sqlite3": "^4.2.0"
+    "@docusaurus/core": "^2.0.0-alpha.58",
+    "@docusaurus/preset-classic": "^2.0.0-alpha.58",
+    "clsx": "^1.1.1",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/CDTtrix/Discord-economy.git"
-  },
-  "keywords": [
-    "discord",
-    "economy",
-    "discord-eco",
-    "discord-economy",
-    "discordpackage",
-    "discord.js",
-    "database",
-    "discordenvo",
-    "discordlevel"
-  ],
-  "author": "Trix",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/CDTtrix/Discord-economy/issues"
-  },
-  "homepage": "https://github.com/CDTtrix/Discord-economy#readme"
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
