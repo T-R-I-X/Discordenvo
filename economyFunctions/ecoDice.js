@@ -1,20 +1,23 @@
 'use strict';
 
-module.exports = {
-  default: (DB,userId,DiceNumber,toAdd) => {
+export function output(DB, userId, DiceNumber, toAdd) {
   var Input;
 
-  if (!userId || !DiceNumber || !toAdd) throw new Error("ecoDice: missing parameters");
+  if (!userId || !DiceNumber || !toAdd)
+    throw new Error("ecoDice: missing parameters");
 
-  if (!parseInt(DiceNumber) || ![1, 2, 3, 4, 5, 6].includes(parseInt(DiceNumber))) throw new Error("ecoDice: number should be 1-6");
-  if (!parseInt(toAdd)) throw new Error("ecoDice: toAdd needs to be a number");
-  if (parseInt(toAdd) < 0) throw new Error("ecoDice: toAdd needs to be greater than 0");
+  if (!parseInt(DiceNumber) || ![1, 2, 3, 4, 5, 6].includes(parseInt(DiceNumber)))
+    throw new Error("ecoDice: number should be 1-6");
+  if (!parseInt(toAdd))
+    throw new Error("ecoDice: toAdd needs to be a number");
+  if (parseInt(toAdd) < 0)
+    throw new Error("ecoDice: toAdd needs to be greater than 0");
   Input = parseInt(toAdd);
   DiceNumber = parseInt(DiceNumber);
 
   const ecoDiceProm = new Promise(async (resolve, error) => {
-  
-  const output = Math.floor(Math.random() * 6 + 1);
+
+    const output = Math.floor(Math.random() * 6 + 1);
 
     const Info = await DB.findOne({
       where: {
@@ -22,7 +25,8 @@ module.exports = {
       }
     });
     if (Info) {
-      if (Info.balance < Input) throw new Error("ecoDice: user doesn't have enough funds");
+      if (Info.balance < Input)
+        throw new Error("ecoDice: user doesn't have enough funds");
 
       if (DiceNumber != output) {
         const Info2 = await DB.update(
@@ -74,4 +78,3 @@ module.exports = {
   });
   return ecoDiceProm;
 }
-};

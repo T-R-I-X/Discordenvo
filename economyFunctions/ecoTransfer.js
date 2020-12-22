@@ -1,21 +1,22 @@
 'use strict';
 
-module.exports = {
-  default: (DB,fromuserId,touserId,toGive) => {
-    var Amount;
+export function output(DB, fromuserId, touserId, toGive) {
+  var Amount;
 
-    if (!fromuserId || !touserId || !toGive) throw new Error("ecoTransfer: missing parameters");
+  if (!fromuserId || !touserId || !toGive)
+    throw new Error("ecoTransfer: missing parameters");
 
-    if (!parseInt(toGive)) throw new Error("ecoTransfer: amount needs to be a number");
-    Amount = parseInt(toGive);
+  if (!parseInt(toGive))
+    throw new Error("ecoTransfer: amount needs to be a number");
+  Amount = parseInt(toGive);
 
-    const ecoTransferProm = new Promise(async (resolve, error) => {
-        const Info = await DB.findOne({
-        where: {
-            userId: fromuserId
-        }
+  const ecoTransferProm = new Promise(async (resolve, error) => {
+    const Info = await DB.findOne({
+      where: {
+        userId: fromuserId
+      }
     });
-    
+
     if (Info) {
       if (Info.balance < Amount) {
         throw new Error("ecoTransfer: user doesn't have enough funds");
@@ -63,7 +64,7 @@ module.exports = {
             userId: touserId,
             balance: Amount,
             daily: 0,
-            weekly:0
+            weekly: 0
           });
           return resolve({
             fromuserId: fromuserId,
@@ -84,5 +85,4 @@ module.exports = {
     throw new Error("ecoTransfer: user doesn't have enough funds");
   });
   return ecoTransferProm;
-}
 }
