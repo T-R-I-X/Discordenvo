@@ -6,13 +6,10 @@
   "scripts": {
     "test": "echo \\\"Error: no test\\\""
   },
-  "bundleDependencies": false,
-  "dependencies": {
-    "discord-economy": "^1.2.2",
-    "discord.js": "^12.2.0",
-    "sequelize": "^6.3.3",
-    "sqlite3": "^4.2.0"
-  },
+  "bundledDependencies": [
+    "sequelize",
+    "sqlite3"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/CDTtrix/Discord-economy.git"
