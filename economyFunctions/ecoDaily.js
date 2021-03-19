@@ -40,10 +40,17 @@ export function output(DB, userId, toAdd) {
     });
     if (Info) {
       if (Info.daily != today) {
+        let count = Info.dailyCount ? Info.dailyCount + 1 : 0
+
+        if (Info.daily - today > 0 + 0 + 24) {
+         count = 0 
+        }
+
         const Info2 = await DB.update(
           {
             balance: Info.balance + Input,
-            daily: today
+            daily: today,
+            dailyCount: count
           },
           {
             where: {
@@ -56,6 +63,7 @@ export function output(DB, userId, toAdd) {
             userId: Info.userId,
             balance: Info.balance + Input,
             earned: Input,
+            dailyCount: count,
             updated: true
           });
         }
@@ -71,10 +79,12 @@ export function output(DB, userId, toAdd) {
       const Info3 = await DB.create({
         userId: userId,
         balance: 0,
-        daily: today
+        daily: today,
+        dailyCount: 1
       });
       return resolve({
         userId: userId,
+        dailyCount: 1,
         updated: true
       });
     } catch (e) {
