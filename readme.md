@@ -15,14 +15,15 @@
 ## Installation
 
 ```js
-$ npm install --save discordenvo
+$ npm i discordenvo --save
 ```
 
 ### Planed updates
 
-- Add more economy games
-- Fix problems with bots that shard
+- Add more economy games (working on)
+- ~~Fix problems with bots that shard (temp fix maybe?)~~
 - Add a better api documentation
+- ~~Add daily count~~
 
 ### Required packages
 
@@ -32,6 +33,7 @@ $ npm install --save discordenvo
 ### ChangeLog
 
 - [1.1.9](https://www.npmjs.com/package/discordenvo/v/1.1.9) - This will break your bot. Changed function names, changed added and renamed output variables. Code split all economy functions. READ BELOW
+- [1.2.0](https://www.npmjs.com/package/discordenvo/v/1.2.0) - This update brings a new feature to ecoDaily which is a counter for dailys in a row. ecoDaily returns a output.dailyCounter when you attempt to call the promise.
 
 ## New Names
 ```diff

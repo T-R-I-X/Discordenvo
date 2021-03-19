@@ -1,7 +1,7 @@
 {
   "name": "discordenvo",
-  "version": "1.1.9",
-  "description": "The best economy package on npmjs.",
+  "version": "1.2.0",
+  "description": "The best economy package for discordjs at the moment.",
   "main": "index.js",
   "scripts": {
     "test": "echo \\\"Error: no test\\\""
@@ -22,13 +22,12 @@
     "discordpackage",
     "discord.js",
     "database",
-    "discordenvo",
-    "discordlevel"
+    "discordenvo"
   ],
-  "author": "Trix",
+  "author": "T-R-I-X",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/CDTtrix/Discord-economy/issues"
+    "url": "https://github.com/T-R-I-X/Discordenvo/issues"
   },
-  "homepage": "https://github.com/CDTtrix/Discord-economy#readme"
+  "homepage": "https://github.com/T-R-I-X/Discordenvo#readme"
 }
